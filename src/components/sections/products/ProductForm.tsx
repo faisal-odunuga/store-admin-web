@@ -48,7 +48,8 @@ const productSchema = z.object({
   isActive: z.boolean().default(true),
 });
 
-type ProductFormValues = z.infer<typeof productSchema>;
+type ProductFormValues = z.input<typeof productSchema>;
+type ProductFormOutput = z.output<typeof productSchema>;
 
 interface ProductFormProps {
   initialData?: Product;
@@ -101,8 +102,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
   };
 
   const onFormSubmit = (values: ProductFormValues) => {
+    const parsed = productSchema.parse(values) as ProductFormOutput;
     const formData = new FormData();
-    Object.entries(values).forEach(([key, value]) => {
+    Object.entries(parsed).forEach(([key, value]) => {
       if (value !== undefined) {
         formData.append(key, value.toString());
       }
