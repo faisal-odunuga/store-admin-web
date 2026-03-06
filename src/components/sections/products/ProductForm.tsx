@@ -60,6 +60,8 @@ interface ProductFormProps {
 export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(initialData?.imageUrl || null);
+  const toInputValue = (value: unknown) =>
+    typeof value === 'number' || typeof value === 'string' ? value : '';
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -239,6 +241,7 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
                             type='number'
                             className='pl-8 rounded-xl border-slate-200 h-11'
                             {...field}
+                            value={toInputValue(field.value)}
                           />
                         </div>
                       </FormControl>
@@ -263,6 +266,7 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
                             type='number'
                             className='pl-8 rounded-xl border-slate-200 h-11'
                             {...field}
+                            value={toInputValue(field.value)}
                           />
                         </div>
                       </FormControl>
@@ -293,6 +297,7 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
                           type='number'
                           className='rounded-xl border-slate-200 h-11'
                           {...field}
+                          value={toInputValue(field.value)}
                         />
                       </FormControl>
                       <FormMessage />
@@ -312,6 +317,7 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
                           type='number'
                           className='rounded-xl border-slate-200 h-11'
                           {...field}
+                          value={toInputValue(field.value)}
                         />
                       </FormControl>
                       <FormDescription className='text-[10px]'>

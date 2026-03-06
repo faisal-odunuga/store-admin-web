@@ -36,6 +36,7 @@ export const useAdjustStock = () => {
 export const useInventoryLogs = (productId?: string) => {
   return useQuery({
     queryKey: ['inventory', 'logs', productId],
-    queryFn: () => inventoryService.getLogs(productId),
+    queryFn: () => inventoryService.getLogs(productId as string),
+    enabled: !!productId,
   });
 };

@@ -107,7 +107,7 @@ export function ProductsTable({
     );
   };
 
-  const columns: ColumnDef<Product, unknown>[] = [
+  const columns: ColumnDef<Product, any>[] = [
     columnHelper.accessor('name', {
       header: () => (
         <span className='flex items-center gap-2'>
@@ -314,7 +314,7 @@ export function ProductsTable({
 
   return (
     <div className='w-full'>
-      <DataTable
+      <DataTable<Product, any>
         columns={columns}
         data={filteredData}
         searchPlaceholder='Search products by name, sku...'
