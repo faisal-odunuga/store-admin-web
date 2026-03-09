@@ -14,11 +14,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { useDashboardStats, useRevenueData } from '@/hooks/useDashboard';
+import { useDashboardStats } from '@/hooks/useDashboard';
 
 export default function AnalyticsPage() {
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
-  const { data: revenueData, isLoading: revenueLoading } = useRevenueData();
 
   return (
     <div className='space-y-10 pb-10'>
