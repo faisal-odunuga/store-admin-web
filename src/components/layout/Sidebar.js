@@ -34,7 +34,7 @@ export function Sidebar({ onItemClick }) {
   const { signOut } = useClerk();
 
   return (
-    <aside className='w-64 glass-morphism border-r border-white/5 flex flex-col shrink-0 h-screen sticky top-0 z-50 overflow-hidden'>
+    <aside className='w-64 glass-morphism border-r border-border flex flex-col shrink-0 h-screen sticky top-0 z-50 overflow-hidden'>
       {/* Glow Effect */}
       <div className='absolute top-0 -left-20 w-40 h-40 bg-primary/10 blur-[80px] pointer-events-none' />
 
@@ -43,10 +43,10 @@ export function Sidebar({ onItemClick }) {
           <Zap className='h-6 w-6 group-hover:scale-110 transition-transform' fill='currentColor' />
         </div>
         <div className='flex flex-col'>
-          <h1 className='text-white text-xl font-black leading-none tracking-tighter uppercase'>
+          <h1 className='text-foreground text-xl font-black leading-none tracking-tighter uppercase'>
             DEALPORT
           </h1>
-          <p className='text-slate-500 text-[10px] font-extrabold uppercase tracking-widest mt-1'>
+          <p className='text-muted-foreground text-[10px] font-extrabold uppercase tracking-widest mt-1'>
             Control Unit
           </p>
         </div>
@@ -64,8 +64,8 @@ export function Sidebar({ onItemClick }) {
               className={cn(
                 'flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group',
                 isActive
-                  ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/5'
-                  : 'text-slate-500 hover:text-white hover:bg-white/5 border border-transparent',
+                  ? 'bg-primary/10 text-primary border border-primary/20 shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary/80 border border-transparent',
               )}
             >
               <div className='flex items-center gap-3'>
@@ -100,7 +100,7 @@ export function Sidebar({ onItemClick }) {
         })}
       </nav>
 
-      <div className='p-6 border-t border-white/5 space-y-2 mt-auto relative z-10 bg-white/[0.01]'>
+      <div className='p-6 border-t border-border space-y-2 mt-auto relative z-10'>
         <Link
           href='/settings'
           onClick={onItemClick}
@@ -108,7 +108,7 @@ export function Sidebar({ onItemClick }) {
             'flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group',
             pathname === '/settings'
               ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/5'
-              : 'text-slate-500 hover:text-white hover:bg-white/5 border border-transparent',
+              : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50 border border-transparent',
           )}
         >
           <div className='flex items-center gap-3'>

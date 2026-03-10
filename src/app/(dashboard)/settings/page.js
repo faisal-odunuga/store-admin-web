@@ -8,8 +8,6 @@ import {
   Globe,
   Database,
   Palette,
-  Check,
-  ChevronRight,
   Sparkles,
   Zap,
   Lock,
@@ -26,14 +24,14 @@ export default function SettingsPage() {
     <div className='max-w-5xl mx-auto space-y-12 pb-20 animate-in'>
       <div className='flex flex-col md:flex-row md:items-center justify-between gap-6'>
         <div>
-          <h1 className='text-3xl font-black text-white tracking-tighter mb-2 flex items-center gap-3 uppercase'>
+          <h1 className='text-3xl font-black text-foreground tracking-tighter mb-2 flex items-center gap-3 uppercase'>
             <Settings className='text-primary' /> System Configuration
           </h1>
-          <p className='text-slate-400 font-medium'>
+          <p className='text-muted-foreground font-medium'>
             Calibrate your administrative environment and platform preferences.
           </p>
         </div>
-        <Button className='bg-primary hover:bg-primary/90 text-white font-black h-12 px-8 rounded-2xl shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95'>
+        <Button className='bg-primary hover:bg-primary/90 text-primary-foreground font-black h-12 px-8 rounded-2xl shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95'>
           Sync All Changes
         </Button>
       </div>
@@ -55,7 +53,7 @@ export default function SettingsPage() {
                 'w-full flex items-center justify-between p-4 rounded-2xl transition-all group',
                 item.active
                   ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/5'
-                  : 'text-slate-500 hover:text-white hover:bg-white/5 border border-transparent',
+                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary border border-transparent',
               )}
             >
               <div className='flex items-center gap-3'>
@@ -78,10 +76,10 @@ export default function SettingsPage() {
                 <Sparkles size={24} className='text-primary' />
               </div>
               <div>
-                <h3 className='text-xl font-black text-white tracking-tight uppercase'>
+                <h3 className='text-xl font-black text-foreground tracking-tight uppercase'>
                   Atmosphere & Design
                 </h3>
-                <p className='text-xs text-slate-500 font-bold uppercase tracking-wider'>
+                <p className='text-xs text-muted-foreground font-bold uppercase tracking-wider'>
                   Customize the visual behavior of your dashboard
                 </p>
               </div>
@@ -90,10 +88,10 @@ export default function SettingsPage() {
             <div className='space-y-8'>
               <div className='flex items-center justify-between p-6 bg-white/[0.02] rounded-3xl border border-white/5 hover:bg-white/[0.04] transition-all group'>
                 <div className='space-y-1'>
-                  <h4 className='text-sm font-black text-white uppercase tracking-tight'>
+                  <h4 className='text-sm font-black text-foreground uppercase tracking-tight'>
                     Glassmorphism Engine
                   </h4>
-                  <p className='text-[10px] font-bold text-slate-600 uppercase tracking-tighter'>
+                  <p className='text-[10px] font-bold text-muted-foreground uppercase tracking-tighter'>
                     Enabled advanced backdrop-blur and transparency
                   </p>
                 </div>
@@ -102,10 +100,10 @@ export default function SettingsPage() {
 
               <div className='flex items-center justify-between p-6 bg-white/[0.02] rounded-3xl border border-white/5 hover:bg-white/[0.04] transition-all group'>
                 <div className='space-y-1'>
-                  <h4 className='text-sm font-black text-white uppercase tracking-tight'>
+                  <h4 className='text-sm font-black text-foreground uppercase tracking-tight'>
                     Dynamic Gradients
                   </h4>
-                  <p className='text-[10px] font-bold text-slate-600 uppercase tracking-tighter'>
+                  <p className='text-[10px] font-bold text-muted-foreground uppercase tracking-tighter'>
                     Activate background blobs and fluid animations
                   </p>
                 </div>
@@ -114,10 +112,10 @@ export default function SettingsPage() {
 
               <div className='flex items-center justify-between p-6 bg-white/[0.02] rounded-3xl border border-white/5 hover:bg-white/[0.04] transition-all group'>
                 <div className='space-y-1'>
-                  <h4 className='text-sm font-black text-white uppercase tracking-tight'>
+                  <h4 className='text-sm font-black text-foreground uppercase tracking-tight'>
                     Reduced Motion
                   </h4>
-                  <p className='text-[10px] font-bold text-slate-600 uppercase tracking-tighter'>
+                  <p className='text-[10px] font-bold text-muted-foreground uppercase tracking-tighter'>
                     Minimize animations for performance and accessibility
                   </p>
                 </div>
@@ -133,10 +131,10 @@ export default function SettingsPage() {
                 <Zap size={24} className='text-indigo-400' />
               </div>
               <div>
-                <h3 className='text-xl font-black text-white tracking-tight uppercase'>
+                <h3 className='text-xl font-black text-foreground tracking-tight uppercase'>
                   Data & Sync
                 </h3>
-                <p className='text-xs text-slate-500 font-bold uppercase tracking-wider'>
+                <p className='text-xs text-muted-foreground font-bold uppercase tracking-wider'>
                   Control how your data behaves and updates
                 </p>
               </div>
@@ -144,22 +142,22 @@ export default function SettingsPage() {
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
               <div className='space-y-3'>
-                <Label className='text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1'>
+                <Label className='text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1'>
                   Sync Interval (ms)
                 </Label>
                 <Input
                   type='number'
                   defaultValue={5000}
-                  className='bg-white/5 border-white/5 h-12 rounded-xl text-white font-bold focus:ring-primary/20'
+                  className='bg-secondary/50 border-border h-12 rounded-xl text-foreground font-bold focus:ring-primary/20'
                 />
               </div>
               <div className='space-y-3'>
-                <Label className='text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1'>
+                <Label className='text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1'>
                   Max Persistence Volume
                 </Label>
                 <Input
                   defaultValue='2.5 GB'
-                  className='bg-white/5 border-white/5 h-12 rounded-xl text-white font-bold focus:ring-primary/20'
+                  className='bg-secondary/50 border-border h-12 rounded-xl text-foreground font-bold focus:ring-primary/20'
                 />
               </div>
             </div>
@@ -171,7 +169,10 @@ export default function SettingsPage() {
                   Cache database optimization is required for better dashboard performance.
                 </p>
               </div>
-              <Button size='sm' className='bg-primary text-white font-black rounded-lg px-6'>
+              <Button
+                size='sm'
+                className='bg-primary text-primary-foreground font-black rounded-lg px-6'
+              >
                 OPTIMIZE NOW
               </Button>
             </div>

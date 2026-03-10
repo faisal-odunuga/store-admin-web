@@ -4,7 +4,6 @@ import React from 'react';
 import { useOrders } from '@/hooks/useOrders';
 import { OrdersTable } from '@/components/sections/orders/OrdersTable';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -17,6 +16,8 @@ export default function OrdersPage() {
     status,
     limit: 10,
   });
+
+  console.log(data);
 
   const handlePaginationChange = (updater) => {
     const newState =
@@ -34,10 +35,10 @@ export default function OrdersPage() {
   return (
     <div className='space-y-8 pb-10'>
       <div className='animate-in'>
-        <h1 className='text-3xl font-extrabold text-white tracking-tight mb-2 uppercase'>
+        <h1 className='text-3xl font-extrabold text-foreground tracking-tight mb-2 uppercase'>
           Order Management
         </h1>
-        <p className='text-slate-400 font-medium'>
+        <p className='text-muted-foreground font-medium'>
           Trace transactions, manage shipments and monitor fulfillment status.
         </p>
       </div>

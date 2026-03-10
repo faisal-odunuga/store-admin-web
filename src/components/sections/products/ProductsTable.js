@@ -1,12 +1,42 @@
 'use client';
 
 import * as React from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Download, FileText } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/shared/data-table';
 import { Button } from '@/components/ui/button';
 import { StockAdjustmentDialog } from './StockAdjustmentDialog';
 import { getProductsColumns } from './ProductsColumns';
+import { exportToCSV, printContent, generateTableHTML } from '@/lib/exportUtils';
+import { formatCurrency } from '@/lib/utils';
+
+const getStockStatus = (product) => {
+  if (product.stock === 0) return 'Out of Stock';
+  if (product.stock <= product.lowStockAlert) return 'Low Stock';
+  return 'In Stock';
+};
+
+const PRODUCT_HEADERS = [
+  'Name',
+  'SKU',
+  'Barcode',
+  'Category',
+  'Selling Price',
+  'Discount Price',
+  'Stock',
+  'Status',
+];
+
+const toProductRow = (p) => [
+  p.name,
+  p.sku,
+  p.barcode || '—',
+  p.category || 'Uncategorized',
+  formatCurrency(p.sellingPrice),
+  p.discountPrice ? formatCurrency(p.discountPrice) : '—',
+  String(p.stock),
+  getStockStatus(p),
+];
 
 export function ProductsTable({
   data,
@@ -71,6 +101,19 @@ export function ProductsTable({
     [counts],
   );
 
+  const handleExportCSV = () => {
+    const rows = filteredData.map(toProductRow);
+    exportToCSV('products', PRODUCT_HEADERS, rows);
+  };
+
+  const handleExportPDF = () => {
+    const rows = filteredData.map(toProductRow);
+    printContent(
+      generateTableHTML('Product Inventory Report', PRODUCT_HEADERS, rows),
+      'Products Report',
+    );
+  };
+
   return (
     <div className='w-full space-y-4'>
       <DataTable
@@ -87,13 +130,31 @@ export function ProductsTable({
         paginationState={paginationState}
         isLoading={isLoading}
         rightElement={
-          <Button
-            onClick={() => router.push('/products/new')}
-            className='bg-primary hover:bg-primary/90 text-white font-bold h-11 px-6 rounded-xl flex gap-3 shadow-lg shadow-primary/20 transition-all'
-          >
-            <Plus className='h-5 w-5' />
-            <span className='hidden sm:inline'>Add Product</span>
-          </Button>
+          <div className='flex items-center gap-2'>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={handleExportCSV}
+              className='h-11 px-4 rounded-xl border-border bg-secondary font-bold text-xs gap-2 hover:bg-secondary/80 text-muted-foreground hover:text-foreground transition-all'
+            >
+              <Download className='h-4 w-4' /> CSV
+            </Button>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={handleExportPDF}
+              className='h-11 px-4 rounded-xl border-border bg-secondary font-bold text-xs gap-2 hover:bg-secondary/80 text-muted-foreground hover:text-foreground transition-all'
+            >
+              <FileText className='h-4 w-4' /> PDF
+            </Button>
+            <Button
+              onClick={() => router.push('/products/new')}
+              className='bg-primary hover:bg-primary/90 text-white font-bold h-11 px-6 rounded-xl flex gap-3 shadow-lg shadow-primary/20 transition-all'
+            >
+              <Plus className='h-5 w-5' />
+              <span className='hidden sm:inline'>Add Product</span>
+            </Button>
+          </div>
         }
       />
 

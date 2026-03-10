@@ -7,37 +7,36 @@ import {
   Users,
   ShoppingBag,
   ArrowUpRight,
-  ArrowDownRight,
   Calendar,
   Filter,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useDashboardStats } from '@/hooks/useDashboard';
 
 export default function AnalyticsPage() {
-  const { data: stats, isLoading: statsLoading } = useDashboardStats();
+  useDashboardStats();
 
   return (
     <div className='space-y-10 pb-10'>
       <div className='flex flex-col md:flex-row md:items-center justify-between gap-6 animate-in'>
         <div>
-          <h1 className='text-3xl font-extrabold text-white tracking-tight mb-2 uppercase'>
+          <h1 className='text-3xl font-extrabold text-foreground tracking-tight mb-2 uppercase'>
             Business Analytics
           </h1>
-          <p className='text-slate-400 font-medium'>
+          <p className='text-muted-foreground font-medium'>
             In-depth performance metrics, growth trends, and consumer behavior.
           </p>
         </div>
         <div className='flex items-center gap-3'>
           <Button
             variant='outline'
-            className='glass-morphism border-white/5 text-white font-bold h-11 px-6 rounded-xl hover:bg-white/5'
+            className='bg-secondary/50 border-border text-foreground font-bold h-11 px-6 rounded-xl hover:bg-secondary'
           >
             <Calendar className='mr-2 h-4 w-4 text-primary' /> Last 30 Days
           </Button>
-          <Button className='bg-primary hover:bg-primary/90 text-white font-bold h-11 px-6 rounded-xl shadow-lg shadow-primary/20'>
+          <Button className='bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-11 px-6 rounded-xl shadow-lg shadow-primary/20'>
             <Filter className='mr-2 h-4 w-4' /> Advanced Filter
           </Button>
         </div>
@@ -89,10 +88,10 @@ export default function AnalyticsPage() {
                 <ArrowUpRight size={10} /> 4.1%
               </div>
             </div>
-            <p className='text-[10px] uppercase tracking-widest font-extrabold text-slate-500 mb-1'>
+            <p className='text-[10px] uppercase tracking-widest font-extrabold text-muted-foreground mb-1'>
               {item.label}
             </p>
-            <h3 className='text-2xl font-black text-white tracking-tight'>{item.value}</h3>
+            <h3 className='text-2xl font-black text-foreground tracking-tight'>{item.value}</h3>
           </Card>
         ))}
       </div>
@@ -103,8 +102,8 @@ export default function AnalyticsPage() {
           <div className='relative z-10'>
             <div className='flex items-center justify-between mb-10'>
               <div>
-                <h3 className='text-xl font-bold text-white mb-1'>Revenue Projection</h3>
-                <p className='text-xs text-slate-500 font-bold uppercase tracking-widest'>
+                <h3 className='text-xl font-bold text-foreground mb-1'>Revenue Projection</h3>
+                <p className='text-xs text-muted-foreground font-bold uppercase tracking-widest'>
                   Forecast based on current trends
                 </p>
               </div>
@@ -138,7 +137,7 @@ export default function AnalyticsPage() {
         <Card className='glass-card border-none p-10 bg-primary/5 border border-primary/20 relative overflow-hidden'>
           <div className='absolute -left-20 -bottom-20 w-64 h-64 bg-primary/10 blur-3xl rounded-full' />
           <div className='relative z-10 space-y-8'>
-            <h3 className='text-xl font-bold text-white mb-6'>Performance Insights</h3>
+            <h3 className='text-xl font-bold text-foreground mb-6'>Performance Insights</h3>
 
             {[
               { label: 'Customer Satisfaction', value: 94, color: 'bg-emerald-400' },
@@ -148,10 +147,10 @@ export default function AnalyticsPage() {
             ].map((insight, idx) => (
               <div key={idx} className='space-y-3'>
                 <div className='flex justify-between items-center'>
-                  <span className='text-[10px] font-extrabold text-white uppercase tracking-widest opacity-70'>
+                  <span className='text-[10px] font-extrabold text-foreground uppercase tracking-widest opacity-70'>
                     {insight.label}
                   </span>
-                  <span className='text-xs font-black text-white'>{insight.value}%</span>
+                  <span className='text-xs font-black text-foreground'>{insight.value}%</span>
                 </div>
                 <div className='h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 p-[1px]'>
                   <div
@@ -165,7 +164,7 @@ export default function AnalyticsPage() {
               </div>
             ))}
 
-            <Button className='w-full mt-4 bg-white text-primary hover:bg-white/90 font-black h-12 rounded-xl shadow-xl shadow-black/20'>
+            <Button className='w-full mt-4 bg-foreground text-background hover:bg-foreground/90 font-black h-12 rounded-xl shadow-xl shadow-black/20'>
               Download Report
             </Button>
           </div>

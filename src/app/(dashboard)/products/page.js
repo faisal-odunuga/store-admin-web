@@ -16,7 +16,6 @@ export default function ProductsPage() {
     status,
     limit: 10,
   });
-
   const handlePaginationChange = (updater) => {
     const newState =
       typeof updater === 'function' ? updater({ pageIndex: page - 1, pageSize: 10 }) : updater;
@@ -33,10 +32,10 @@ export default function ProductsPage() {
   return (
     <div className='space-y-8 pb-10'>
       <div className='animate-in'>
-        <h1 className='text-3xl font-extrabold text-white tracking-tight mb-2 uppercase'>
+        <h1 className='text-3xl font-extrabold text-foreground tracking-tight mb-2 uppercase'>
           Product Inventory
         </h1>
-        <p className='text-slate-400 font-medium'>
+        <p className='text-muted-foreground font-medium'>
           Manage your catalogue, track stock levels and update pricing.
         </p>
       </div>

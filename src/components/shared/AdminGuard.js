@@ -1,15 +1,13 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useClerk } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import LoadingState from './LoadingState';
 import { useAuth } from '@/hooks/useAuth';
 
 export function AdminGuard({ children }) {
-  const { me, isLoading, isError, error, signOut, isClerkLoaded, clerkUser, isSignedIn } =
-    useAuth();
+  const { me, isLoading, isError, error, signOut, isClerkLoaded, isSignedIn } = useAuth();
 
   useEffect(() => {
     // Only act if we have definitive data and are not loading

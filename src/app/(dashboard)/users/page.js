@@ -41,10 +41,10 @@ export default function UsersPage() {
   return (
     <div className='space-y-8 pb-10'>
       <div className='animate-in'>
-        <h1 className='text-3xl font-extrabold text-white tracking-tight mb-2 uppercase'>
+        <h1 className='text-3xl font-extrabold text-foreground tracking-tight mb-2 uppercase'>
           Directory Control
         </h1>
-        <p className='text-slate-400 font-medium'>
+        <p className='text-muted-foreground font-medium'>
           Oversee user accounts, assign privileges and monitor platform access.
         </p>
       </div>

@@ -26,10 +26,10 @@ export function SortableHeader({ column, title, className }) {
             variant='ghost'
             size='sm'
             className={cn(
-              'h-8 px-3 data-[state=open]:bg-white/5 uppercase text-[10px] font-bold tracking-widest transition-all rounded-lg',
+              'h-8 px-3 data-[state=open]:bg-secondary/50 uppercase text-[10px] font-bold tracking-widest transition-all rounded-lg',
               isSorted
-                ? 'text-primary bg-primary/5 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
-                : 'text-slate-500 hover:text-slate-300',
+                ? 'text-primary bg-primary/10 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
+                : 'text-muted-foreground hover:text-foreground',
             )}
           >
             <span>{title}</span>
@@ -42,17 +42,17 @@ export function SortableHeader({ column, title, className }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align='start'
-          className='glass-morphism border-white/10 rounded-xl min-w-[120px]'
+          className='glass-morphism border-border rounded-xl min-w-[120px]'
         >
           <DropdownMenuItem
-            className='text-xs font-bold text-slate-400 focus:text-white focus:bg-white/5 rounded-lg cursor-pointer flex items-center gap-2 m-1'
+            className='text-xs font-bold text-muted-foreground focus:text-foreground focus:bg-secondary/50 rounded-lg cursor-pointer flex items-center gap-2 m-1'
             onClick={() => column.toggleSorting(false)}
           >
             <ArrowUp className='h-3.5 w-3.5' />
             <span>Ascending</span>
           </DropdownMenuItem>
           <DropdownMenuItem
-            className='text-xs font-bold text-slate-400 focus:text-white focus:bg-white/5 rounded-lg cursor-pointer flex items-center gap-2 m-1'
+            className='text-xs font-bold text-muted-foreground focus:text-foreground focus:bg-secondary/50 rounded-lg cursor-pointer flex items-center gap-2 m-1'
             onClick={() => column.toggleSorting(true)}
           >
             <ArrowDown className='h-3.5 w-3.5' />

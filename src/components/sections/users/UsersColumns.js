@@ -29,7 +29,7 @@ export const getUsersColumns = () => [
             <span className='text-sm font-bold text-white truncate max-w-[180px] tracking-tight'>
               {user.name || 'Anonymous User'}
             </span>
-            <span className='text-[10px] text-slate-400 font-extrabold truncate flex items-center gap-1.5 uppercase tracking-tighter'>
+            <span className='text-[10px] text-muted-foreground font-extrabold truncate flex items-center gap-1.5 uppercase tracking-tighter'>
               <Mail size={10} className='text-primary/50' /> {user.email}
             </span>
           </div>
@@ -46,7 +46,7 @@ export const getUsersColumns = () => [
           size={12}
           className='text-slate-600 group-hover:text-primary transition-colors'
         />
-        <code className='text-[10px] bg-white/5 px-2 py-1 rounded-lg border border-white/5 text-slate-400 font-mono font-bold tracking-widest'>
+        <code className='text-[10px] bg-secondary px-2 py-1 rounded-lg border border-border text-muted-foreground font-mono font-bold tracking-widest'>
           {row.original.clerkId.slice(0, 12)}...
         </code>
       </div>
@@ -123,7 +123,7 @@ export const getUsersColumns = () => [
           </DropdownMenuItem>
           <DropdownMenuSeparator className='bg-white/5' />
           <DropdownMenuItem
-            className='text-xs font-bold text-slate-400 focus:text-white focus:bg-white/5 rounded-lg m-1 cursor-pointer gap-2'
+            className='text-xs font-bold text-muted-foreground focus:text-foreground focus:bg-secondary rounded-lg m-1 cursor-pointer gap-2'
             onClick={() => {
               navigator.clipboard.writeText(row.original.id);
               toast.success('Internal ID copied to clipboard');

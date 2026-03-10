@@ -1,10 +1,34 @@
 'use client';
 
 import React from 'react';
+import { Download, FileText } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/shared/data-table';
+import { Button } from '@/components/ui/button';
 import { getOrderTabs } from '@/components/sections/orders/orderTableConfig';
 import { getOrdersColumns } from './OrdersColumns';
+import { exportToCSV, printContent, generateTableHTML } from '@/lib/exportUtils';
+import { formatCurrency, formatDate } from '@/lib/utils';
+
+const ORDER_HEADERS = [
+  'Order #',
+  'Customer',
+  'Email',
+  'Total',
+  'Payment Status',
+  'Order Status',
+  'Date',
+];
+
+const toOrderRow = (o) => [
+  o.orderNumber,
+  o.user?.name || 'Guest',
+  o.user?.email || '—',
+  formatCurrency(o.totalAmount),
+  o.paymentStatus,
+  o.status,
+  formatDate(o.createdAt),
+];
 
 export function OrdersTable({
   data = [],
@@ -32,6 +56,17 @@ export function OrdersTable({
   const columns = React.useMemo(() => getOrdersColumns({ router }), [router]);
   const tabs = React.useMemo(() => getOrderTabs(data), [data]);
 
+  const handleExportCSV = () => {
+    exportToCSV('orders', ORDER_HEADERS, data.map(toOrderRow));
+  };
+
+  const handleExportPDF = () => {
+    printContent(
+      generateTableHTML('Orders Report', ORDER_HEADERS, data.map(toOrderRow)),
+      'Orders Report',
+    );
+  };
+
   return (
     <DataTable
       columns={columns}
@@ -46,6 +81,26 @@ export function OrdersTable({
       onPaginationChange={onPaginationChange}
       paginationState={paginationState}
       isLoading={isLoading}
+      rightElement={
+        <div className='flex items-center gap-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={handleExportCSV}
+            className='h-11 px-4 rounded-xl border-border bg-secondary font-bold text-xs gap-2 hover:bg-secondary/80 text-muted-foreground hover:text-foreground transition-all'
+          >
+            <Download className='h-4 w-4' /> CSV
+          </Button>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={handleExportPDF}
+            className='h-11 px-4 rounded-xl border-border bg-secondary font-bold text-xs gap-2 hover:bg-secondary/80 text-muted-foreground hover:text-foreground transition-all'
+          >
+            <FileText className='h-4 w-4' /> PDF
+          </Button>
+        </div>
+      }
     />
   );
 }

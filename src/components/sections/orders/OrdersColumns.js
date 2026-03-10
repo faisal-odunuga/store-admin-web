@@ -20,10 +20,10 @@ export const getOrdersColumns = ({ router }) => [
         className='flex items-center gap-2 group cursor-pointer'
         onClick={() => router.push(`/orders/${row.original.orderNumber.toLowerCase()}`)}
       >
-        <div className='p-2 bg-white/5 rounded-lg border border-white/5 group-hover:border-primary/30 transition-colors'>
-          <Hash size={14} className='text-slate-500 group-hover:text-primary' />
+        <div className='p-2 bg-secondary rounded-lg border border-border group-hover:border-primary/30 transition-colors'>
+          <Hash size={14} className='text-muted-foreground group-hover:text-primary' />
         </div>
-        <span className='font-bold text-white tracking-widest text-xs uppercase'>
+        <span className='font-bold text-primary tracking-widest text-xs uppercase'>
           {row.original.orderNumber}
         </span>
       </div>
@@ -37,7 +37,7 @@ export const getOrdersColumns = ({ router }) => [
       return (
         <div className='flex flex-col gap-1'>
           <DataName name={customerName} />
-          <span className='text-[10px] text-slate-500 font-extrabold uppercase tracking-tighter opacity-70'>
+          <span className='text-[10px] text-muted-foreground font-extrabold uppercase tracking-tighter opacity-70'>
             Registered User
           </span>
         </div>
@@ -49,11 +49,11 @@ export const getOrdersColumns = ({ router }) => [
     header: 'Transaction',
     cell: ({ row }) => (
       <div className='flex flex-col gap-1'>
-        <span className='font-extrabold text-white tracking-tight text-sm'>
+        <span className='font-extrabold text-foreground tracking-tight text-sm'>
           {formatCurrency(row.original.totalAmount)}
         </span>
-        <span className='text-[9px] text-slate-500 font-bold uppercase tracking-widest leading-none flex items-center gap-1'>
-          <CreditCard size={10} /> {row.original.items?.length || 0} Products
+        <span className='text-[9px] text-muted-foreground font-bold uppercase tracking-widest leading-none flex items-center gap-1'>
+          <CreditCard size={10} /> {row.original.orderItems?.length || 0} Products
         </span>
       </div>
     ),
@@ -90,7 +90,7 @@ export const getOrdersColumns = ({ router }) => [
     cell: ({ row }) => (
       <div className='hidden md:flex items-center gap-2'>
         <div className='h-1.5 w-1.5 rounded-full bg-primary/40 shadow-[0_0_8px_rgba(59,130,246,0.5)]' />
-        <span className='text-slate-400 font-bold text-xs tabular-nums uppercase'>
+        <span className='text-muted-foreground font-bold text-xs tabular-nums uppercase'>
           {format(new Date(row.original.createdAt), 'MMM dd, HH:mm')}
         </span>
       </div>
@@ -102,17 +102,17 @@ export const getOrdersColumns = ({ router }) => [
       <div className='flex justify-end'>
         <DataActions>
           <DropdownMenuItem
-            className='text-xs font-bold text-slate-400 focus:text-white focus:bg-white/5 rounded-lg m-1 cursor-pointer gap-2'
+            className='text-xs font-bold text-muted-foreground focus:text-foreground focus:bg-secondary rounded-lg m-1 cursor-pointer gap-2'
             onClick={() => router.push(`/orders/${row.original.orderNumber.toLowerCase()}`)}
           >
             <ArrowUpRight className='h-3.5 w-3.5' />
             <span>View Full Receipt</span>
           </DropdownMenuItem>
-          <DropdownMenuItem className='text-xs font-bold text-slate-400 focus:text-white focus:bg-white/5 rounded-lg m-1 cursor-pointer gap-2'>
+          <DropdownMenuItem className='text-xs font-bold text-muted-foreground focus:text-foreground focus:bg-secondary rounded-lg m-1 cursor-pointer gap-2'>
             <Truck className='h-3.5 w-3.5' />
             <span>Update Logistics</span>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className='bg-white/5' />
+          <DropdownMenuSeparator className='bg-border' />
           <DropdownMenuItem className='text-rose-400 focus:text-rose-300 focus:bg-rose-500/10 rounded-lg m-1 cursor-pointer gap-2'>
             <Trash2 className='h-3.5 w-3.5' />
             <span>Archive Record</span>

@@ -12,12 +12,12 @@ const DataName = ({ name, className }) => {
         className,
       )}
     >
-      <h4 className='font-bold text-sm text-white hover:text-primary transition-colors truncate tracking-tight'>
+      <h4 className='font-bold text-sm text-primary hover:text-primary/80 transition-colors truncate tracking-tight'>
         {name}
       </h4>
       <ExternalLink
         size={12}
-        className='text-slate-500 opacity-0 group-hover:opacity-100 transition-all'
+        className='text-muted-foreground opacity-0 group-hover:opacity-100 transition-all'
       />
     </div>
   );

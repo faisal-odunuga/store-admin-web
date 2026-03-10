@@ -27,6 +27,7 @@ import {
   paymentStatusConfig,
 } from '@/components/sections/orders/orderTableConfig';
 import DataStatus from '@/components/shared/data-table/DataStatus';
+import { printContent, generateInvoiceHTML } from '@/lib/exportUtils';
 
 export default function OrderDetailsPage() {
   const { orderNumber } = useParams();
@@ -71,10 +72,12 @@ export default function OrderDetailsPage() {
     return (
       <div className='h-[70vh] flex flex-col items-center justify-center gap-6'>
         <AlertCircle size={48} className='text-rose-500 opacity-20' />
-        <h1 className='text-2xl font-bold text-white tracking-tight'>Order Record Not Found</h1>
+        <h1 className='text-2xl font-bold text-foreground tracking-tight'>
+          Order Record Not Found
+        </h1>
         <Button
           onClick={() => router.push('/orders')}
-          className='bg-white/5 border border-white/5 text-white h-12 px-8 rounded-2xl hover:bg-white/10'
+          className='bg-secondary border border-border text-foreground h-12 px-8 rounded-2xl hover:bg-secondary/80'
         >
           Back to Register
         </Button>
@@ -90,14 +93,14 @@ export default function OrderDetailsPage() {
           <Button
             variant='ghost'
             size='icon'
-            className='h-12 w-12 rounded-[1.25rem] bg-white/5 border border-white/5 hover:bg-white/10 text-white shadow-xl transition-all'
+            className='h-12 w-12 rounded-[1.25rem] bg-secondary border border-border hover:bg-secondary/80 text-foreground shadow-xl transition-all'
             onClick={() => router.push('/orders')}
           >
             <ChevronLeft size={24} />
           </Button>
           <div>
             <div className='flex items-center gap-3 mb-2'>
-              <h1 className='text-4xl font-black text-white tracking-tighter uppercase tabular-nums'>
+              <h1 className='text-4xl font-black text-foreground tracking-tighter uppercase tabular-nums'>
                 #{order.orderNumber}
               </h1>
               <DataStatus
@@ -107,7 +110,7 @@ export default function OrderDetailsPage() {
                 icon={orderStatusConfig.icons[order.status]}
               />
             </div>
-            <p className='text-slate-500 font-bold uppercase tracking-widest text-[10px] flex items-center gap-2'>
+            <p className='text-muted-foreground font-bold uppercase tracking-widest text-[10px] flex items-center gap-2'>
               <Calendar size={12} className='text-primary' /> Placed on{' '}
               {formatDate(order.createdAt)}
             </p>
@@ -117,12 +120,15 @@ export default function OrderDetailsPage() {
         <div className='flex items-center gap-4'>
           <Button
             variant='outline'
-            className='glass-morphism border-white/10 text-white font-bold h-12 px-6 rounded-2xl hover:bg-white/5 transition-all'
+            className='bg-secondary border border-border text-foreground font-bold h-12 px-6 rounded-2xl hover:bg-secondary/80 transition-all'
+            onClick={() =>
+              printContent(generateInvoiceHTML(order), `Invoice #${order.orderNumber}`)
+            }
           >
             <Printer className='mr-2 h-4 w-4' /> Print Invoice
           </Button>
 
-          <div className='h-12 flex items-center gap-1 bg-white/[0.03] border border-white/5 rounded-2xl px-2'>
+          <div className='h-12 flex items-center gap-1 bg-secondary border border-border rounded-2xl px-2'>
             {['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED'].map((s) => (
               <Button
                 key={s}
@@ -133,8 +139,8 @@ export default function OrderDetailsPage() {
                 className={cn(
                   'h-8 px-4 rounded-xl text-[10px] font-black uppercase tracking-tighter transition-all',
                   order.status === s
-                    ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                    : 'text-slate-500 hover:text-white',
+                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20'
+                    : 'text-muted-foreground hover:text-foreground',
                 )}
               >
                 {s}
@@ -149,11 +155,11 @@ export default function OrderDetailsPage() {
         <div className='lg:col-span-2 space-y-10'>
           {/* Product Manifest */}
           <Card className='glass-card border-none overflow-hidden'>
-            <div className='px-10 py-6 border-b border-white/5 bg-white/[0.02] flex items-center justify-between'>
-              <h3 className='text-lg font-black text-white tracking-tight flex items-center gap-3'>
+            <div className='px-10 py-6 border-b border-border bg-secondary/30 flex items-center justify-between'>
+              <h3 className='text-lg font-black text-foreground tracking-tight flex items-center gap-3'>
                 <Package size={20} className='text-primary' /> Manifest Content
               </h3>
-              <span className='text-[10px] font-bold text-slate-500 uppercase tracking-widest'>
+              <span className='text-[10px] font-bold text-muted-foreground uppercase tracking-widest'>
                 {order.items?.length || 0} Registered Items
               </span>
             </div>
@@ -161,9 +167,9 @@ export default function OrderDetailsPage() {
               {order.items?.map((item, idx) => (
                 <div
                   key={idx}
-                  className='p-8 flex items-center gap-6 group hover:bg-white/[0.01] transition-colors'
+                  className='p-8 flex items-center gap-6 group hover:bg-secondary/20 transition-colors'
                 >
-                  <div className='h-20 w-20 relative rounded-2xl border border-white/5 bg-white/5 overflow-hidden group-hover:scale-105 transition-transform duration-500 shadow-2xl'>
+                  <div className='h-20 w-20 relative rounded-2xl border border-border bg-secondary shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-500 shadow-2xl'>
                     {item.product?.imageUrl && (
                       <Image
                         src={item.product.imageUrl}
@@ -174,62 +180,65 @@ export default function OrderDetailsPage() {
                     )}
                   </div>
                   <div className='flex-1 space-y-2'>
-                    <h4 className='text-lg font-bold text-white tracking-tight group-hover:text-primary transition-colors'>
+                    <h4 className='text-lg font-bold text-foreground tracking-tight group-hover:text-primary transition-colors'>
                       {item.product?.name}
                     </h4>
                     <div className='flex items-center gap-6'>
-                      <span className='text-[10px] font-extrabold px-2 py-0.5 bg-white/5 text-slate-400 border border-white/5 rounded-md tracking-widest uppercase'>
+                      <span className='text-[10px] font-extrabold px-2 py-0.5 bg-secondary text-muted-foreground border border-border rounded-md tracking-widest uppercase'>
                         {item.product?.sku}
                       </span>
-                      <span className='text-xs text-slate-500 font-bold tabular-nums'>
-                        Qty: <span className='text-white'>{item.quantity}</span>
+                      <span className='text-xs text-muted-foreground font-bold tabular-nums'>
+                        Qty: <span className='text-foreground'>{item.quantity}</span>
                       </span>
-                      <span className='text-xs text-slate-500 font-bold tabular-nums'>
-                        Unit: <span className='text-primary'>{formatCurrency(item.price)}</span>
+                      <span className='text-xs text-muted-foreground font-bold tabular-nums'>
+                        Unit:{' '}
+                        <span className='text-primary'>
+                          {formatCurrency(item.sellingPrice ?? item.price ?? 0)}
+                        </span>
                       </span>
                     </div>
                   </div>
                   <div className='text-right'>
-                    <p className='text-xl font-black text-white tracking-tighter'>
-                      {formatCurrency(item.price * item.quantity)}
+                    <p className='text-xl font-black text-foreground tracking-tighter'>
+                      {formatCurrency((item.sellingPrice ?? item.price ?? 0) * item.quantity)}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
-            <div className='p-10 bg-white/[0.01] border-t border-white/5 space-y-4'>
-              <div className='flex justify-between items-center text-slate-500 font-bold text-xs uppercase tracking-widest'>
+            <div className='p-10 bg-secondary/10 border-t border-border space-y-4'>
+              <div className='flex justify-between items-center text-muted-foreground font-bold text-xs uppercase tracking-widest'>
                 <span>Items Subtotal</span>
-                <span className='text-white'>
+                <span className='text-foreground'>
                   {formatCurrency(order.subtotal || order.totalAmount)}
                 </span>
               </div>
 
               {order.discountAmount > 0 && (
-                <div className='flex justify-between items-center text-slate-500 font-bold text-xs uppercase tracking-widest'>
+                <div className='flex justify-between items-center text-muted-foreground font-bold text-xs uppercase tracking-widest'>
                   <span>Discount Total</span>
                   <span className='text-rose-400'>-{formatCurrency(order.discountAmount)}</span>
                 </div>
               )}
 
               {order.taxAmount > 0 && (
-                <div className='flex justify-between items-center text-slate-500 font-bold text-xs uppercase tracking-widest'>
+                <div className='flex justify-between items-center text-muted-foreground font-bold text-xs uppercase tracking-widest'>
                   <span>Estimated Tax</span>
                   <span className='text-amber-400'>{formatCurrency(order.taxAmount)}</span>
                 </div>
               )}
 
-              <div className='flex justify-between items-center text-slate-500 font-bold text-xs uppercase tracking-widest'>
+              <div className='flex justify-between items-center text-muted-foreground font-bold text-xs uppercase tracking-widest'>
                 <span>Logistics / Shipping</span>
                 {order.shippingFee > 0 ? (
-                  <span className='text-white'>{formatCurrency(order.shippingFee)}</span>
+                  <span className='text-foreground'>{formatCurrency(order.shippingFee)}</span>
                 ) : (
                   <span className='text-emerald-400'>FREE</span>
                 )}
               </div>
               <div className='h-px bg-white/5 my-6' />
               <div className='flex justify-between items-center'>
-                <span className='text-lg font-black text-white uppercase tracking-tighter'>
+                <span className='text-lg font-black text-foreground uppercase tracking-tighter'>
                   Grand Total
                 </span>
                 <span className='text-3xl font-black text-primary tracking-tighter shadow-[0_0_20px_rgba(59,130,246,0.2)]'>
@@ -238,7 +247,7 @@ export default function OrderDetailsPage() {
               </div>
               {order.profitAmount !== null && order.profitAmount !== undefined && (
                 <div className='flex justify-between items-center mt-4 pt-4 border-t border-white/5'>
-                  <span className='text-xs font-black text-slate-500 uppercase tracking-widest opacity-80'>
+                  <span className='text-xs font-black text-muted-foreground uppercase tracking-widest opacity-80'>
                     Net Profit Margin
                   </span>
                   <span className='text-sm font-black text-emerald-400 tracking-tighter'>
@@ -251,7 +260,7 @@ export default function OrderDetailsPage() {
 
           {/* Dynamic Log/Timeline */}
           <Card className='glass-card border-none p-10 space-y-8'>
-            <h3 className='text-lg font-black text-white tracking-tight flex items-center gap-3 mb-6'>
+            <h3 className='text-lg font-black text-foreground tracking-tight flex items-center gap-3 mb-6'>
               <Clock size={20} className='text-primary' /> Lifecycle Audit
             </h3>
             <div className='relative pl-10 space-y-10'>
@@ -300,13 +309,13 @@ export default function OrderDetailsPage() {
                     <h4
                       className={cn(
                         'font-bold text-sm tracking-tight transition-colors',
-                        step.done ? 'text-white' : 'text-slate-600',
+                        step.done ? 'text-foreground' : 'text-muted-foreground',
                       )}
                     >
                       {step.label}
                     </h4>
                     {step.time && (
-                      <span className='text-[10px] font-extrabold text-slate-500 uppercase tracking-widest'>
+                      <span className='text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest'>
                         {formatDate(step.time)}
                       </span>
                     )}
@@ -322,7 +331,7 @@ export default function OrderDetailsPage() {
           {/* Customer Knowledge */}
           <Card className='glass-card border-none p-8 space-y-8 relative overflow-hidden'>
             <div className='absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl -mr-16 -mt-16' />
-            <h4 className='text-xs font-black text-white uppercase tracking-widest opacity-50 flex items-center gap-2'>
+            <h4 className='text-xs font-black text-foreground uppercase tracking-widest opacity-50 flex items-center gap-2'>
               <User size={14} className='text-primary' /> Customer Profile
             </h4>
             <div className='flex items-center gap-4'>
@@ -330,10 +339,10 @@ export default function OrderDetailsPage() {
                 {order.user?.name?.charAt(0) || '?'}
               </div>
               <div>
-                <h4 className='text-lg font-black text-white tracking-tight'>
+                <h4 className='text-lg font-black text-foreground tracking-tight'>
                   {order.user?.name || 'Guest Client'}
                 </h4>
-                <p className='text-[10px] font-extrabold text-slate-500 uppercase tracking-widest'>
+                <p className='text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest'>
                   {order.user?.email || 'N/A'}
                 </p>
               </div>
@@ -342,7 +351,7 @@ export default function OrderDetailsPage() {
               <div className='flex items-center gap-3 text-slate-400 font-medium text-xs'>
                 <Phone size={14} className='text-primary/60' /> +234 812 345 6789
               </div>
-              <div className='flex items-start gap-3 text-slate-400 font-medium text-xs leading-relaxed'>
+              <div className='flex items-start gap-3 text-muted-foreground font-medium text-xs leading-relaxed'>
                 <MapPin size={14} className='text-primary/60 mt-0.5' />
                 Plot 12, Industrial Estate, <br />
                 Victoria Island, Lagos
@@ -358,12 +367,12 @@ export default function OrderDetailsPage() {
 
           {/* Financial Status */}
           <Card className='glass-card border-none p-8 space-y-8 bg-white/[0.02]'>
-            <h4 className='text-xs font-black text-white uppercase tracking-widest opacity-50 flex items-center gap-2'>
+            <h4 className='text-xs font-black text-foreground uppercase tracking-widest opacity-50 flex items-center gap-2'>
               <CreditCard size={14} className='text-emerald-400' /> Transaction Intelligence
             </h4>
             <div className='space-y-6'>
               <div>
-                <p className='text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-2'>
+                <p className='text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest mb-2'>
                   Settlement Status
                 </p>
                 <DataStatus
@@ -375,15 +384,15 @@ export default function OrderDetailsPage() {
               </div>
               <div className='space-y-4 pt-4 border-t border-white/5'>
                 <div className='flex justify-between items-center'>
-                  <span className='text-[10px] font-extrabold text-slate-600 uppercase tracking-widest'>
+                  <span className='text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest'>
                     Gateway
                   </span>
-                  <span className='text-xs font-black text-white uppercase tracking-tighter'>
+                  <span className='text-xs font-black text-foreground uppercase tracking-tighter'>
                     Paystack Enterprise
                   </span>
                 </div>
                 <div className='flex justify-between items-center'>
-                  <span className='text-[10px] font-extrabold text-slate-600 uppercase tracking-widest'>
+                  <span className='text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest'>
                     Reference
                   </span>
                   <span className='text-[10px] font-mono font-bold text-primary'>

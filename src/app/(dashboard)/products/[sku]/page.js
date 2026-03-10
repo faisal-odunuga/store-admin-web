@@ -3,17 +3,7 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useProduct } from '@/hooks/useProducts';
-import {
-  Loader2,
-  ChevronLeft,
-  Settings,
-  Package,
-  ExternalLink,
-  Banknote,
-  Database,
-  Calendar,
-  Layers,
-} from 'lucide-react';
+import { Loader2, ChevronLeft, Settings, ExternalLink, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { formatCurrency, formatDate } from '@/lib/utils';
@@ -27,7 +17,7 @@ export default function ProductDetailsPage() {
     return (
       <div className='h-[70vh] flex flex-col items-center justify-center gap-4'>
         <Loader2 className='h-12 w-12 text-primary animate-spin' />
-        <p className='text-slate-500 font-extrabold tracking-widest text-[10px] uppercase'>
+        <p className='text-muted-foreground font-extrabold tracking-widest text-[10px] uppercase'>
           Retrieving Item Data...
         </p>
       </div>
@@ -37,8 +27,13 @@ export default function ProductDetailsPage() {
   if (!product) {
     return (
       <div className='h-[70vh] flex flex-col items-center justify-center gap-4'>
-        <h1 className='text-2xl font-bold text-white'>Resource Not Found</h1>
-        <Button onClick={() => router.push('/products')}>Return Home</Button>
+        <h1 className='text-2xl font-bold text-foreground'>Resource Not Found</h1>
+        <Button
+          onClick={() => router.push('/products')}
+          className='bg-primary text-primary-foreground font-bold rounded-xl'
+        >
+          Return Home
+        </Button>
       </div>
     );
   }
@@ -51,18 +46,20 @@ export default function ProductDetailsPage() {
           <Button
             variant='ghost'
             size='icon'
-            className='h-11 w-11 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 text-white'
+            className='h-11 w-11 rounded-xl bg-secondary border border-border hover:bg-secondary/80 text-foreground'
             onClick={() => router.push('/products')}
           >
             <ChevronLeft size={20} />
           </Button>
           <div>
-            <h1 className='text-3xl font-extrabold text-white tracking-tight'>{product.name}</h1>
+            <h1 className='text-3xl font-extrabold text-foreground tracking-tight'>
+              {product.name}
+            </h1>
             <div className='flex items-center gap-3 mt-2'>
               <span className='text-[10px] font-extrabold px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded-md tracking-widest uppercase'>
                 {product.sku}
               </span>
-              <span className='text-[10px] font-extrabold px-2 py-0.5 bg-white/5 text-slate-400 border border-white/5 rounded-md tracking-widest uppercase'>
+              <span className='text-[10px] font-extrabold px-2 py-0.5 bg-secondary text-muted-foreground border border-border rounded-md tracking-widest uppercase'>
                 {product.category}
               </span>
             </div>
@@ -71,12 +68,12 @@ export default function ProductDetailsPage() {
         <div className='flex items-center gap-3'>
           <Button
             variant='outline'
-            className='border-white/5 bg-white/[0.02] text-white font-bold h-11 px-6 rounded-xl hover:bg-white/5'
+            className='border-border bg-secondary/50 text-foreground font-bold h-11 px-6 rounded-xl hover:bg-secondary'
             onClick={() => router.push(`/products/${product.sku.toLowerCase()}/edit`)}
           >
             <Settings className='mr-2 h-4 w-4' /> Edit Info
           </Button>
-          <Button className='bg-primary hover:bg-primary/90 text-white font-bold h-11 px-6 rounded-xl shadow-lg shadow-primary/20'>
+          <Button className='bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-11 px-6 rounded-xl shadow-lg shadow-primary/20'>
             <ExternalLink className='mr-2 h-4 w-4' /> Preview Live
           </Button>
         </div>
@@ -97,11 +94,11 @@ export default function ProductDetailsPage() {
               )}
             </div>
             <div className='p-10 border-t border-white/5'>
-              <h3 className='text-lg font-bold text-white mb-6 uppercase tracking-widest opacity-60 flex items-center gap-2'>
+              <h3 className='text-lg font-bold text-foreground mb-6 uppercase tracking-widest opacity-60 flex items-center gap-2'>
                 <Layers size={14} className='text-primary' /> Story & Specifications
               </h3>
               <div className='prose prose-invert max-w-none'>
-                <p className='text-slate-300 leading-relaxed text-lg font-medium whitespace-pre-line'>
+                <p className='text-muted-foreground leading-relaxed text-lg font-medium whitespace-pre-line'>
                   {product.description || 'No detailed description provided for this item.'}
                 </p>
               </div>
@@ -117,26 +114,26 @@ export default function ProductDetailsPage() {
 
             <div className='space-y-6 relative z-10'>
               <div>
-                <p className='text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-2'>
+                <p className='text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest mb-2'>
                   Market Valuation
                 </p>
-                <h2 className='text-4xl font-extrabold text-white tracking-tighter tabular-nums'>
+                <h2 className='text-4xl font-extrabold text-foreground tracking-tighter tabular-nums'>
                   {formatCurrency(product.sellingPrice)}
                 </h2>
               </div>
 
               <div className='grid grid-cols-2 gap-4'>
-                <div className='p-4 bg-white/5 rounded-2xl border border-white/5'>
-                  <p className='text-[9px] font-extrabold text-slate-500 uppercase tracking-widest mb-1'>
+                <div className='p-4 bg-secondary/50 rounded-2xl border border-border'>
+                  <p className='text-[9px] font-extrabold text-muted-foreground uppercase tracking-widest mb-1'>
                     Stock Position
                   </p>
-                  <p className='text-xl font-bold text-white'>{product.stock} Units</p>
+                  <p className='text-xl font-bold text-foreground'>{product.stock} Units</p>
                 </div>
-                <div className='p-4 bg-white/5 rounded-2xl border border-white/5'>
-                  <p className='text-[9px] font-extrabold text-slate-500 uppercase tracking-widest mb-1'>
+                <div className='p-4 bg-secondary/50 rounded-2xl border border-border'>
+                  <p className='text-[9px] font-extrabold text-muted-foreground uppercase tracking-widest mb-1'>
                     Purchase Cost
                   </p>
-                  <p className='text-xl font-bold text-white tracking-tighter'>
+                  <p className='text-xl font-bold text-foreground tracking-tighter'>
                     {formatCurrency(product.costPrice)}
                   </p>
                 </div>
@@ -155,9 +152,9 @@ export default function ProductDetailsPage() {
                     %
                   </span>
                 </div>
-                <h3 className='text-2xl font-extrabold text-white tracking-tight'>
+                <h3 className='text-2xl font-extrabold text-foreground tracking-tight'>
                   {formatCurrency(product.sellingPrice - product.costPrice)}{' '}
-                  <span className='text-slate-600 text-sm font-medium'>/ unit</span>
+                  <span className='text-muted-foreground text-sm font-medium'>/ unit</span>
                 </h3>
               </div>
             </div>
@@ -165,28 +162,28 @@ export default function ProductDetailsPage() {
 
           {/* Registry Details */}
           <div className='glass-card p-8 space-y-6'>
-            <h4 className='text-xs font-extrabold text-white uppercase tracking-widest flex items-center gap-2 opacity-60'>
-              <Calendar size={14} className='text-primary' /> Registry Information
+            <h4 className='text-xs font-extrabold text-foreground uppercase tracking-widest flex items-center gap-2 opacity-60'>
+              <Layers size={14} className='text-primary' /> Registry Information
             </h4>
             <div className='space-y-4'>
-              <div className='flex justify-between items-center py-3 border-b border-white/5'>
-                <span className='text-xs text-slate-500 font-bold uppercase tracking-wider'>
+              <div className='flex justify-between items-center py-3 border-b border-border'>
+                <span className='text-xs text-muted-foreground font-bold uppercase tracking-wider'>
                   Date Created
                 </span>
-                <span className='text-xs text-white font-bold'>
+                <span className='text-xs text-foreground font-bold'>
                   {formatDate(product.createdAt)}
                 </span>
               </div>
-              <div className='flex justify-between items-center py-3 border-b border-white/5'>
-                <span className='text-xs text-slate-500 font-bold uppercase tracking-wider'>
+              <div className='flex justify-between items-center py-3 border-b border-border'>
+                <span className='text-xs text-muted-foreground font-bold uppercase tracking-wider'>
                   Last Modification
                 </span>
-                <span className='text-xs text-white font-bold'>
+                <span className='text-xs text-foreground font-bold'>
                   {formatDate(product.updatedAt)}
                 </span>
               </div>
               <div className='flex justify-between items-center py-3'>
-                <span className='text-xs text-slate-500 font-bold uppercase tracking-wider'>
+                <span className='text-xs text-muted-foreground font-bold uppercase tracking-wider'>
                   Storage ID
                 </span>
                 <span className='text-[10px] font-mono text-primary font-bold'>{product.id}</span>

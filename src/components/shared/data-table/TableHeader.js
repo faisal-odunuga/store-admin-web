@@ -6,14 +6,14 @@ import { TableHead, TableHeader as ShadTableHeader, TableRow } from '@/component
 
 const TableHeader = ({ table }) => {
   return (
-    <ShadTableHeader className='bg-white/[0.02] border-b border-white/5'>
+    <ShadTableHeader className='bg-secondary/30 border-b border-border'>
       {table.getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id} className='hover:bg-transparent border-none'>
           {headerGroup.headers.map((header) => {
             return (
               <TableHead
                 key={header.id}
-                className='h-12 px-6 text-[10px] font-bold text-slate-500 tracking-widest uppercase items-center'
+                className='h-12 px-6 text-[10px] font-bold text-muted-foreground tracking-widest uppercase items-center'
               >
                 {header.isPlaceholder
                   ? null

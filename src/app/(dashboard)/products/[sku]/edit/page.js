@@ -6,6 +6,7 @@ import { ProductForm } from '@/components/sections/products/ProductForm';
 import { useProduct, useUpdateProduct } from '@/hooks/useProducts';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function EditProductPage() {
   const { sku } = useParams();
@@ -19,13 +20,13 @@ export default function EditProductPage() {
       {
         onSuccess: () => {
           toast.success('Product updated successfully!', {
-            className: 'glass-morphism border-white/10 text-white',
+            className: 'bg-emerald-500 text-white border-none',
           });
           router.push('/products');
         },
         onError: (error) => {
           toast.error(error.message || 'Failed to update product', {
-            className: 'glass-morphism border-white/10 text-white',
+            className: 'bg-destructive text-destructive-foreground border-none',
           });
         },
       },

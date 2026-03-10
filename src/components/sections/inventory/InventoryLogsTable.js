@@ -1,13 +1,26 @@
 'use client';
 
 import * as React from 'react';
-import { Package, Calendar, Info, ArrowUpRight, ArrowDownLeft, Activity } from 'lucide-react';
+import { Info, ArrowUpRight, ArrowDownLeft, Activity, Download } from 'lucide-react';
 import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/shared/data-table';
+import { Button } from '@/components/ui/button';
 import DataStatus from '@/components/shared/data-table/DataStatus';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { exportToCSV } from '@/lib/exportUtils';
+
+const LOG_HEADERS = ['Product', 'SKU', 'Type', 'Quantity', 'Note', 'Date'];
+
+const toLogRow = (log) => [
+  log.product?.name || 'Deleted Product',
+  log.product?.sku || '—',
+  log.type,
+  String(log.quantity),
+  log.note || 'Internal update',
+  format(new Date(log.createdAt), 'yyyy-MM-dd HH:mm:ss'),
+];
 
 export function InventoryLogsTable({
   data = [],
@@ -38,10 +51,10 @@ export function InventoryLogsTable({
       cell: ({ row }) => {
         const product = row.original.product;
         if (!product)
-          return <span className='text-slate-500 font-bold italic'>Deleted Product</span>;
+          return <span className='text-muted-foreground font-bold italic'>Deleted Product</span>;
         return (
           <div className='flex items-center gap-4 py-1 group'>
-            <div className='h-12 w-12 relative rounded-2xl border border-white/5 overflow-hidden bg-white/5 shrink-0 shadow-lg group-hover:scale-105 transition-transform'>
+            <div className='h-12 w-12 relative rounded-2xl border border-border overflow-hidden bg-secondary shrink-0 shadow-lg group-hover:scale-105 transition-transform'>
               <Image
                 src={product.imageUrl || 'https://via.placeholder.com/40'}
                 alt={product.name}
@@ -51,12 +64,12 @@ export function InventoryLogsTable({
             </div>
             <div className='flex flex-col min-w-0'>
               <span
-                className='text-sm font-bold text-white truncate max-w-[200px] tracking-tight group-hover:text-primary transition-colors cursor-pointer'
+                className='text-sm font-black text-primary truncate max-w-[200px] tracking-tight hover:text-primary/80 transition-colors cursor-pointer'
                 onClick={() => router.push(`/products/${product.sku.toLowerCase()}`)}
               >
                 {product.name}
               </span>
-              <span className='text-[10px] text-slate-500 font-extrabold uppercase tracking-widest mt-0.5'>
+              <span className='text-[10px] text-muted-foreground font-extrabold uppercase tracking-widest mt-0.5'>
                 {product.sku}
               </span>
             </div>
@@ -124,8 +137,8 @@ export function InventoryLogsTable({
       header: 'Reasoning',
       cell: ({ row }) => (
         <div className='flex items-center gap-2 max-w-[220px]'>
-          <Info size={12} className='text-slate-600 shrink-0' />
-          <span className='text-xs text-slate-400 font-medium truncate italic'>
+          <Info size={12} className='text-primary opacity-60 shrink-0' />
+          <span className='text-xs text-muted-foreground font-medium truncate italic'>
             {row.original.note || 'Internal update'}
           </span>
         </div>
@@ -136,10 +149,10 @@ export function InventoryLogsTable({
       header: 'Timestamp',
       cell: ({ row }) => (
         <div className='flex flex-col gap-0.5'>
-          <span className='text-xs text-white font-bold opacity-80'>
+          <span className='text-xs text-foreground font-bold'>
             {format(new Date(row.original.createdAt), 'MMM dd, yyyy')}
           </span>
-          <span className='text-[10px] text-slate-500 font-extrabold uppercase tracking-tighter'>
+          <span className='text-[10px] text-muted-foreground font-extrabold uppercase tracking-tighter'>
             {format(new Date(row.original.createdAt), 'HH:mm:ss')}
           </span>
         </div>
@@ -158,6 +171,10 @@ export function InventoryLogsTable({
     },
   ];
 
+  const handleExportCSV = () => {
+    exportToCSV('inventory-logs', LOG_HEADERS, data.map(toLogRow));
+  };
+
   return (
     <DataTable
       columns={columns}
@@ -171,6 +188,16 @@ export function InventoryLogsTable({
       pageCount={pageCount}
       onPaginationChange={onPaginationChange}
       paginationState={paginationState}
+      rightElement={
+        <Button
+          variant='outline'
+          size='sm'
+          onClick={handleExportCSV}
+          className='h-11 px-4 rounded-xl border-border bg-secondary font-bold text-xs gap-2 hover:bg-secondary/80 text-muted-foreground hover:text-foreground transition-all'
+        >
+          <Download className='h-4 w-4' /> Export CSV
+        </Button>
+      }
     />
   );
 }

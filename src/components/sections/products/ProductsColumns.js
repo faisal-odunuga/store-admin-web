@@ -16,7 +16,7 @@ export const getProductsColumns = ({ router, setSelectedProduct }) => [
       const product = row.original;
       return (
         <div className='flex items-center gap-4 group min-w-[200px]'>
-          <div className='h-12 w-12 rounded-2xl bg-white/5 border border-white/5 shrink-0 overflow-hidden shadow-lg transition-transform group-hover:scale-105'>
+          <div className='h-12 w-12 rounded-2xl bg-secondary border border-border shrink-0 overflow-hidden shadow-lg transition-transform group-hover:scale-105'>
             {product.imageUrl && (
               <Image
                 src={product.imageUrl}
@@ -30,12 +30,12 @@ export const getProductsColumns = ({ router, setSelectedProduct }) => [
           <div className='flex flex-col min-w-0'>
             <span
               onClick={() => router.push(`/products/${product.sku.toLowerCase()}`)}
-              className='text-sm font-bold text-white hover:text-primary transition-colors cursor-pointer truncate tracking-tight'
+              className='text-sm font-bold text-primary hover:text-primary/80 transition-colors cursor-pointer truncate tracking-tight'
             >
               {product.name}
             </span>
             <div className='flex items-center gap-2 mt-1'>
-              <span className='text-[10px] text-slate-400 font-extrabold uppercase tracking-widest'>
+              <span className='text-[10px] text-muted-foreground font-extrabold uppercase tracking-widest'>
                 {product.sku}
               </span>
               {product.barcode && (
@@ -54,8 +54,8 @@ export const getProductsColumns = ({ router, setSelectedProduct }) => [
     header: 'Category',
     cell: ({ row }) => (
       <div className='hidden md:block'>
-        <span className='text-xs font-bold text-slate-400 bg-white/5 px-2.5 py-1 rounded-lg border border-white/5'>
-          {row.original.category || 'Uncategorized'}
+        <span className='text-xs font-bold text-muted-foreground bg-secondary px-2.5 py-1 rounded-lg border border-border'>
+          转{row.original.category || 'Uncategorized'}
         </span>
       </div>
     ),
@@ -70,12 +70,12 @@ export const getProductsColumns = ({ router, setSelectedProduct }) => [
             <div className='text-sm font-extrabold text-emerald-400 tracking-tight tabular-nums'>
               {formatCurrency(row.original.discountPrice)}
             </div>
-            <div className='text-[10px] font-bold text-slate-500 line-through tracking-tight tabular-nums'>
+            <div className='text-[10px] font-bold text-muted-foreground line-through tracking-tight tabular-nums'>
               {formatCurrency(row.original.sellingPrice)}
             </div>
           </>
         ) : (
-          <div className='text-sm font-extrabold text-white tracking-tight tabular-nums'>
+          <div className='text-sm font-extrabold text-foreground tracking-tight tabular-nums'>
             {formatCurrency(row.original.sellingPrice)}
           </div>
         )}
@@ -94,7 +94,7 @@ export const getProductsColumns = ({ router, setSelectedProduct }) => [
           <span
             className={cn(
               'text-sm font-extrabold tabular-nums tracking-tight',
-              isLow ? 'text-rose-400' : 'text-white',
+              isLow ? 'text-rose-400' : 'text-foreground',
             )}
           >
             {stock} Units
@@ -102,7 +102,7 @@ export const getProductsColumns = ({ router, setSelectedProduct }) => [
           <span
             className={cn(
               'text-[9px] font-black uppercase tracking-widest',
-              isLow ? 'text-rose-500/60' : 'text-slate-500',
+              isLow ? 'text-rose-500/60' : 'text-muted-foreground',
             )}
           >
             {isLow ? 'Action Required' : 'Optimal Level'}
@@ -157,7 +157,7 @@ export const getProductsColumns = ({ router, setSelectedProduct }) => [
         <Button
           variant='ghost'
           size='sm'
-          className='h-9 w-9 p-0 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-xl'
+          className='h-9 w-9 p-0 text-muted-foreground hover:text-emerald-400 hover:bg-emerald-500/10 rounded-xl'
           onClick={() => setSelectedProduct(row.original)}
           title='Adjust Stock'
         >
@@ -165,20 +165,20 @@ export const getProductsColumns = ({ router, setSelectedProduct }) => [
         </Button>
         <DataActions>
           <DropdownMenuItem
-            className='text-xs font-bold text-slate-400 focus:text-white focus:bg-white/5 rounded-lg m-1 cursor-pointer gap-2'
+            className='text-xs font-bold text-muted-foreground focus:text-foreground focus:bg-secondary rounded-lg m-1 cursor-pointer gap-2'
             onClick={() => router.push(`/products/${row.original.sku.toLowerCase()}`)}
           >
             <Eye className='h-3.5 w-3.5' />
             <span>Full Details</span>
           </DropdownMenuItem>
           <DropdownMenuItem
-            className='text-xs font-bold text-slate-400 focus:text-white focus:bg-white/5 rounded-lg m-1 cursor-pointer gap-2'
+            className='text-xs font-bold text-muted-foreground focus:text-foreground focus:bg-secondary rounded-lg m-1 cursor-pointer gap-2'
             onClick={() => router.push(`/products/${row.original.sku.toLowerCase()}/edit`)}
           >
             <Edit2 className='h-3.5 w-3.5' />
             <span>Edit Info</span>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className='bg-white/5' />
+          <DropdownMenuSeparator className='bg-border' />
           <DropdownMenuItem className='text-rose-400 focus:text-rose-300 focus:bg-rose-500/10 rounded-lg m-1 cursor-pointer gap-2'>
             <Trash2 className='h-3.5 w-3.5' />
             <span>Remove Product</span>

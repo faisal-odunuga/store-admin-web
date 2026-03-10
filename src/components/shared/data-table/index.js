@@ -70,20 +70,21 @@ export function DataTable({
   return (
     <div className='w-full space-y-6 animate-in'>
       {/* Top Bar */}
-      <div className='flex flex-col lg:flex-row lg:items-center justify-between gap-6'>
-        <div className='flex flex-col sm:flex-row sm:items-start lg:items-center gap-4 flex-1 w-full'>
-          <div className='relative w-full sm:w-[320px]'>
-            <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500' />
+      <div className='flex flex-col gap-4'>
+        {/* Row 1: Search + Tabs */}
+        <div className='flex flex-col sm:flex-row sm:items-center gap-4'>
+          <div className='relative w-full sm:w-[320px] shrink-0 group'>
+            <Search className='absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors' />
             <Input
               placeholder={searchPlaceholder}
               value={globalFilter ?? ''}
               onChange={(e) => setGlobalFilter(e.target.value)}
-              className='h-11 w-full pl-10 bg-white/[0.03] border-white/5 rounded-xl text-sm focus-visible:ring-primary/20 focus:bg-white/[0.05] transition-all'
+              className='h-12 w-full pl-11 bg-secondary/50 border-border rounded-xl text-sm font-bold text-foreground focus-visible:ring-primary/20 transition-all placeholder:text-muted-foreground/50 shadow-sm'
             />
           </div>
 
           {tabs && tabs.length > 0 && (
-            <div className='w-full sm:w-auto overflow-x-auto no-scrollbar'>
+            <div className='min-w-0 overflow-x-auto no-scrollbar'>
               <TableTabs
                 tabs={tabs}
                 activeTab={activeTab ?? 'all'}
@@ -93,42 +94,45 @@ export function DataTable({
           )}
         </div>
 
-        <div className='flex items-center gap-2 sm:gap-3 justify-start sm:justify-end w-full lg:w-auto overflow-x-auto no-scrollbar'>
-          {onRefetch && (
-            <Button
-              variant='outline'
-              size='sm'
-              className='h-11 px-4 rounded-xl border-white/5 bg-white/[0.03] font-bold text-xs flex gap-2 hover:bg-white/5 text-slate-400 hover:text-white transition-all group'
-              onClick={() => {
-                onRefetch();
-                toast.info('Refetching data...', {
-                  className: 'glass-morphism border-white/10 text-white',
-                  duration: 2000,
-                });
-              }}
-            >
-              <RefreshCw
-                size={14}
-                className='group-hover:rotate-180 transition-transform duration-700'
-              />
-              Refetch
-            </Button>
-          )}
-          {rightElement && <div className='shrink-0'>{rightElement}</div>}
-        </div>
+        {/* Row 2: Action buttons */}
+        {(onRefetch || rightElement) && (
+          <div className='flex items-center gap-2 flex-wrap'>
+            {onRefetch && (
+              <Button
+                variant='outline'
+                size='sm'
+                className='h-12 px-5 rounded-xl border-border bg-secondary/50 font-black text-[10px] uppercase tracking-widest flex gap-2 hover:bg-secondary text-muted-foreground hover:text-foreground transition-all group shadow-sm active:scale-95'
+                onClick={() => {
+                  onRefetch();
+                  toast.info('Refetching data...', {
+                    className: 'bg-secondary text-foreground border-border font-bold',
+                    duration: 2000,
+                  });
+                }}
+              >
+                <RefreshCw
+                  size={14}
+                  className='group-hover:rotate-180 transition-transform duration-700 text-primary'
+                />
+                Refetch
+              </Button>
+            )}
+            {rightElement && <div className='flex items-center'>{rightElement}</div>}
+          </div>
+        )}
       </div>
 
       {/* Table Container */}
-      <div className='glass-card overflow-hidden shadow-2xl shadow-black/20'>
+      <div className='glass-card overflow-hidden shadow-2xl shadow-black/5 dark:shadow-black/20 font-medium'>
         <Table>
           <TableHeader table={table} />
-          <TableBody className='divide-y divide-white/5'>
+          <TableBody className='divide-y divide-border'>
             {isLoading || (!data && !table.getRowModel().rows?.length) ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <TableRow key={i} className='hover:bg-transparent border-none'>
                   {columns.map((_, j) => (
                     <TableCell key={j} className='px-6 py-8'>
-                      <div className='h-4 bg-white/5 rounded-full animate-pulse w-full' />
+                      <div className='h-4 bg-secondary rounded-full animate-pulse w-full' />
                     </TableCell>
                   ))}
                 </TableRow>
@@ -138,10 +142,10 @@ export function DataTable({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  className='hover:bg-white/[0.02] transition-colors border-none group'
+                  className='hover:bg-secondary/30 transition-colors border-none group'
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='px-6 py-4'>
+                    <TableCell key={cell.id} className='px-6 py-4 text-foreground font-medium'>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

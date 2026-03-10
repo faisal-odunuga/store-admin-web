@@ -1,13 +1,8 @@
-'use client';
-
-import React from 'react';
-import { MoreVertical, Edit2, Trash2, Eye, Settings, ChevronRight } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
